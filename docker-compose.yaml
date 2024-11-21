@@ -27,7 +27,6 @@ services:
     depends_on:
       - backend
     volumes:
-      - telegram_session:mounted
+      - ./SenderApi/mounted:/mounted
 volumes:
   postgres_data:
-  telegram_session:
