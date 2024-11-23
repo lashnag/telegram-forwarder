@@ -1,6 +1,6 @@
 [submodule "ForwarderBackend"]
 	path = ForwarderBackend
-	url = https://github.com/lashnag/telegram-client-sender-api.git
+	url = https://github.com/lashnag/forwarder-backend.git
 [submodule "SenderApi"]
 	path = SenderApi
-	url = https://github.com/lashnag/forwarder-backend.git
+	url = https://github.com/lashnag/telegram-client-sender-api.git
