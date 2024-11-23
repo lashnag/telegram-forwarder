@@ -13,6 +13,6 @@
 - cd SenderApi
 - pip install -r requirements.txt
 - cd app
-- python main.py
+- python save_session.py
 - Вводим телефон и код подтверждения. Завершить скрипт
 - В корневой папке запускаем docker-compose.yaml
