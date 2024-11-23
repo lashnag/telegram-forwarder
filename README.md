@@ -6,6 +6,7 @@
 Разворачиваем на хостинге:
 
 - git clone https://github.com/lashnag/telegram-forwarder.git
+- cd telegram-forwarder
 - git submodule update --init --recursive
 - добавляем свой файл .env с настройками окружения
 - устанавливаем python

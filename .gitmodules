@@ -3,4 +3,4 @@
 	url = git@github.com:lashnag/forwarder-backend.git
 [submodule "SenderApi"]
 	path = SenderApi
-	url = git@github.com:lashnag/python-mtproto-with-server.git
+	url = git@github.com:lashnag/telegram-client-sender-api.git
