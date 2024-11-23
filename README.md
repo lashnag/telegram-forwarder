@@ -14,5 +14,5 @@
 - pip install -r requirements.txt
 - cd app
 - python save_session.py
-- Вводим телефон и код подтверждения. Завершить скрипт
-- В корневой папке запускаем docker-compose.yaml
+- Вводим Api Id, Api Hash, телефон и код подтверждения
+- В корневой папке запускаем docker-compose up
