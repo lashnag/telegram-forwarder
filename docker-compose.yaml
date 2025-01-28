@@ -10,6 +10,8 @@ services:
       - postgres_data:/var/lib/postgresql/data
   backend:
     container_name: forwarder_backend_application
+    ports:
+      - "8080:8080"
     build:
       context: ForwarderBackend
       dockerfile: Dockerfile
