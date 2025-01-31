@@ -33,7 +33,7 @@ services:
     volumes:
       - ./SenderApi/mounted:/mounted
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.0
+    image: elasticsearch:7.17.0
     container_name: elasticsearch
     environment:
       - discovery.type=single-node
@@ -46,7 +46,7 @@ services:
     env_file:
       - .env
   logstash:
-    image: docker.elastic.co/logstash/logstash:7.17.0
+    image: logstash:7.17.0
     container_name: logstash
     environment:
       - XPACK_SECURITY_ENABLED=false
@@ -58,7 +58,7 @@ services:
     env_file:
       - .env
   kibana:
-    image: docker.elastic.co/kibana/kibana:7.17.0
+    image: kibana:7.17.0
     container_name: kibana
     ports:
       - "${KIBANA_PORT}:5601"
