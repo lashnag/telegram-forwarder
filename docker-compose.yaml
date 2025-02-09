@@ -8,6 +8,11 @@ services:
       - "${POSTGRES_PORT}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER}" ]
+      interval: 10s
+      timeout: 10s
+      retries: 3
   backend:
     container_name: forwarder_backend_application
     ports:
@@ -20,6 +25,11 @@ services:
     depends_on:
       - database
       - logstash
+    healthcheck:
+      test: ["CMD", "curl", "-f", "-u", "$APP_USER:$APP_PASSWORD", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
   sender:
     container_name: sender_api
     build:
@@ -45,6 +55,11 @@ services:
       - elastic_search_data:/usr/share/elasticsearch/data
     env_file:
       - .env
+    healthcheck:
+      test: [ "CMD", "curl", "-u", "${ELASTIC_USERNAME}:${ELASTIC_PASSWORD}", "http://localhost:9200/_cluster/health?wait_for_status=yellow&timeout=50s" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
   logstash:
     image: logstash:7.17.0
     container_name: logstash
@@ -57,6 +72,11 @@ services:
       - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
     env_file:
       - .env
+    healthcheck:
+      test: [ "CMD", "curl", "--silent", "--fail", "http://localhost:9600/_node/stats" ]
+      interval: 10s
+      timeout: 10s
+      retries: 3
   kibana:
     image: kibana:7.17.0
     container_name: kibana
