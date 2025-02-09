@@ -23,8 +23,10 @@ services:
     env_file:
       - .env
     depends_on:
-      - database
-      - logstash
+      database:
+        condition: service_healthy
+      logstash:
+        condition: service_healthy
     healthcheck:
       test: ["CMD", "curl", "-f", "-u", "${BACKEND_BASIC_AUTH_USER}:${BACKEND_BASIC_AUTH_PASSWORD}", "http://localhost:8080/actuator/health"]
       interval: 10s
@@ -38,10 +40,15 @@ services:
     env_file:
       - .env
     depends_on:
-      - backend
-      - logstash
+      logstash:
+        condition: service_healthy
     volumes:
       - ./SenderApi/mounted:/mounted
+  lemmatizer:
+    container_name: lemmatizer
+    build:
+      context: LemmatizerApi
+      dockerfile: Dockerfile
   elasticsearch:
     image: elasticsearch:7.17.0
     container_name: elasticsearch
@@ -67,7 +74,8 @@ services:
       - XPACK_SECURITY_ENABLED=false
       - XPACK_MONITORING_ENABLED=false
     depends_on:
-      - elasticsearch
+      elasticsearch:
+        condition: service_healthy
     volumes:
       - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
     env_file:
@@ -83,7 +91,8 @@ services:
     ports:
       - "${KIBANA_PORT}:5601"
     depends_on:
-      - elasticsearch
+      elasticsearch:
+        condition: service_healthy
     environment:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
       - ELASTICSEARCH_USERNAME=${ELASTIC_USERNAME}

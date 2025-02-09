@@ -4,3 +4,6 @@
 [submodule "SenderApi"]
 	path = SenderApi
 	url = https://github.com/lashnag/telegram-client-sender-api.git
+[submodule "LemmatizerApi"]
+	path = LemmatizerApi
+	url = https://github.com/lashnag/lemmatizer.git
