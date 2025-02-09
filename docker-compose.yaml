@@ -26,7 +26,7 @@ services:
       - database
       - logstash
     healthcheck:
-      test: ["CMD", "curl", "-f", "-u", "$APP_USER:$APP_PASSWORD", "http://localhost:8080/actuator/health"]
+      test: ["CMD", "curl", "-f", "-u", "${BACKEND_BASIC_AUTH_USER}:${BACKEND_BASIC_AUTH_PASSWORD}", "http://localhost:8080/actuator/health"]
       interval: 10s
       timeout: 10s
       retries: 3
