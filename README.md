@@ -6,13 +6,13 @@
 Разворачиваем на хостинге:
 
 - git clone https://github.com/lashnag/telegram-forwarder.git
-- cd telegram-forwarder
-- git submodule update --init --recursive
 - добавляем свой файл .env с настройками окружения
+- git clone https://github.com/lashnag/telegram-client-sender-api.git
 - устанавливаем python
 - cd SenderApi
 - pip install -r requirements.txt
 - cd app
 - python save_session.py
 - Вводим Api Id, Api Hash, телефон и код подтверждения
-- В корневой папке запускаем docker-compose up
+- Ищем папку mounted и копируем из нее файл session.txt в папку первого репозитория в /mounted/sender_api/
+- В папке первого репозитория запускаем docker-compose up
