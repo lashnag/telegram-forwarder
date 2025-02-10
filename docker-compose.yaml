@@ -14,12 +14,10 @@ services:
       timeout: 10s
       retries: 3
   backend:
+    image: lashnag/forwarder_backend_application:latest
     container_name: forwarder_backend_application
     ports:
       - "8080:8080"
-    build:
-      context: ForwarderBackend
-      dockerfile: Dockerfile
     env_file:
       - .env
     depends_on:
@@ -33,10 +31,8 @@ services:
       timeout: 10s
       retries: 3
   sender:
+    image: lashnag/sender_api:latest
     container_name: sender_api
-    build:
-      context: SenderApi
-      dockerfile: Dockerfile
     env_file:
       - .env
     depends_on:
@@ -45,10 +41,11 @@ services:
     volumes:
       - ./SenderApi/mounted:/mounted
   lemmatizer:
+    image: lashnag/lemmatizer:latest
     container_name: lemmatizer
-    build:
-      context: LemmatizerApi
-      dockerfile: Dockerfile
+  ocr:
+    image: lashnag/ocr:latest
+    container_name: ocr
   elasticsearch:
     image: elasticsearch:7.17.0
     container_name: elasticsearch
