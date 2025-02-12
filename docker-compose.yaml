@@ -14,7 +14,7 @@ services:
       timeout: 10s
       retries: 5
   backend:
-    image: lashnag/forwarder_backend_application:1.0.3
+    image: lashnag/forwarder_backend_application:1.0.4
     container_name: forwarder_backend_application
     ports:
       - "8080:8080"
@@ -45,11 +45,17 @@ services:
     container_name: lemmatizer
     env_file:
       - .env
+    depends_on:
+      logstash:
+        condition: service_healthy
   ocr:
     image: lashnag/ocr:1.0.2
     container_name: ocr
     env_file:
       - .env
+    depends_on:
+      logstash:
+        condition: service_healthy
   elasticsearch:
     image: elasticsearch:7.17.0
     container_name: elasticsearch
