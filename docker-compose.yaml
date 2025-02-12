@@ -14,7 +14,7 @@ services:
       timeout: 10s
       retries: 5
   backend:
-    image: lashnag/forwarder_backend_application:1.0.0
+    image: lashnag/forwarder_backend_application:1.0.1
     container_name: forwarder_backend_application
     ports:
       - "8080:8080"
