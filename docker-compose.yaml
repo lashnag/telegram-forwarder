@@ -14,7 +14,7 @@ services:
       timeout: 10s
       retries: 5
   backend:
-    image: lashnag/forwarder_backend_application:1.0.2
+    image: lashnag/forwarder_backend_application:1.0.3
     container_name: forwarder_backend_application
     ports:
       - "8080:8080"
@@ -41,11 +41,15 @@ services:
     volumes:
       - ./mounted/sender_api:/sender_api/mounted
   lemmatizer:
-    image: lashnag/lemmatizer:1.0.0
+    image: lashnag/lemmatizer:1.0.1
     container_name: lemmatizer
+    env_file:
+      - .env
   ocr:
-    image: lashnag/ocr:1.0.1
+    image: lashnag/ocr:1.0.2
     container_name: ocr
+    env_file:
+      - .env
   elasticsearch:
     image: elasticsearch:7.17.0
     container_name: elasticsearch
