@@ -31,7 +31,7 @@ services:
       timeout: 10s
       retries: 5
   sender:
-    image: lashnag/sender_api:1.0.0
+    image: lashnag/sender_api:1.2.0
     container_name: sender_api
     env_file:
       - .env
