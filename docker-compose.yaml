@@ -106,6 +106,19 @@ services:
       - ELASTICSEARCH_PASSWORD=${ELASTIC_PASSWORD}
     env_file:
       - .env
+  grafana:
+    image: grafana/grafana:11.5.1
+    container_name: grafana
+    ports:
+      - "${GRAFANA_PORT}:3000"
+    depends_on:
+      - elasticsearch
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_USERNAME}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+    volumes:
+      - grafana:/var/lib/grafana
 volumes:
   postgres_data:
   elastic_search_data:
+  grafana:
