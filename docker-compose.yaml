@@ -116,6 +116,7 @@ services:
     environment:
       - GF_SECURITY_ADMIN_USER=${GRAFANA_USERNAME}
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+      - GF_SERVER_ROOT_URL=${DOMAIN}:${GRAFANA_PORT}
     volumes:
       - grafana:/var/lib/grafana
 volumes:
