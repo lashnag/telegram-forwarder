@@ -14,7 +14,7 @@ services:
       timeout: 10s
       retries: 5
   backend:
-    image: lashnag/forwarder_backend_application:1.2.3
+    image: lashnag/forwarder_backend_application:1.3.0
     container_name: forwarder_backend_application
     ports:
       - "8080:8080"
@@ -25,13 +25,19 @@ services:
         condition: service_healthy
       logstash:
         condition: service_healthy
+      lemmatizer:
+        condition: service_healthy
+      ocr:
+        condition: service_healthy
+      entities-extractor:
+        condition: service_healthy
     healthcheck:
       test: ["CMD", "curl", "-f", "-u", "${BACKEND_BASIC_AUTH_USER}:${BACKEND_BASIC_AUTH_PASSWORD}", "http://localhost:8080/actuator/health"]
       interval: 30s
       timeout: 10s
       retries: 5
   sender:
-    image: lashnag/sender_api:1.2.1
+    image: lashnag/sender_api:1.3.0
     container_name: sender_api
     env_file:
       - .env
@@ -41,21 +47,44 @@ services:
     volumes:
       - ./mounted/sender_api:/sender_api/mounted
   lemmatizer:
-    image: lashnag/lemmatizer:1.0.3
+    image: lashnag/lemmatizer:1.1.0
     container_name: lemmatizer
     env_file:
       - .env
     depends_on:
       logstash:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4355/healthcheck"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
   ocr:
-    image: lashnag/ocr:1.0.3
+    image: lashnag/ocr:1.1.0
     container_name: ocr
     env_file:
       - .env
     depends_on:
       logstash:
         condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:4366/healthcheck" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+  entities-extractor:
+    image: lashnag/entities-extractor:1.0.0
+    container_name: entities-extractor
+    env_file:
+      - .env
+    depends_on:
+      logstash:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:4319/healthcheck" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
   elasticsearch:
     image: elasticsearch:7.17.0
     container_name: elasticsearch
@@ -71,9 +100,9 @@ services:
       - .env
     healthcheck:
       test: [ "CMD", "curl", "-u", "${ELASTIC_USERNAME}:${ELASTIC_PASSWORD}", "http://localhost:9200/_cluster/health?wait_for_status=yellow&timeout=50s" ]
-      interval: 30s
+      interval: 5s
       timeout: 10s
-      retries: 5
+      retries: 15
   logstash:
     image: logstash:7.17.0
     container_name: logstash
@@ -84,14 +113,14 @@ services:
       elasticsearch:
         condition: service_healthy
     volumes:
-      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./mounted/logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
     env_file:
       - .env
     healthcheck:
       test: [ "CMD", "curl", "--silent", "--fail", "http://localhost:9600/_node/stats" ]
-      interval: 30s
+      interval: 5s
       timeout: 10s
-      retries: 5
+      retries: 15
   kibana:
     image: kibana:7.17.0
     container_name: kibana
