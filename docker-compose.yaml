@@ -73,7 +73,7 @@ services:
       timeout: 10s
       retries: 5
   entities-extractor:
-    image: lashnag/entities-extractor:1.0.0
+    image: lashnag/entities-extractor:1.0.1
     container_name: entities-extractor
     env_file:
       - .env
