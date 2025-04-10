@@ -15,7 +15,7 @@ services:
       timeout: 10s
       retries: 5
   backend:
-    image: lashnag/forwarder_backend_application:2.0.3
+    image: lashnag/forwarder_backend_application:2.0.5
     container_name: forwarder_backend_application
     restart: unless-stopped
     ports:
@@ -78,7 +78,7 @@ services:
       timeout: 10s
       retries: 5
   entities-extractor:
-    image: lashnag/entities-extractor:1.0.4
+    image: lashnag/entities-extractor:2.0.0
     container_name: entities-extractor
     restart: unless-stopped
     env_file:
