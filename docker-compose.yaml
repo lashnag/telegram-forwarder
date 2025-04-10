@@ -50,7 +50,7 @@ services:
     volumes:
       - ./mounted/sender_api:/sender_api/mounted
   lemmatizer:
-    image: lashnag/lemmatizer:1.1.1
+    image: lashnag/lemmatizer:1.1.2
     container_name: lemmatizer
     restart: unless-stopped
     env_file:
