@@ -15,7 +15,7 @@ services:
       timeout: 10s
       retries: 5
   backend:
-    image: lashnag/forwarder_backend_application:2.0.5
+    image: lashnag/forwarder_backend_application:2.0.6
     container_name: forwarder_backend_application
     restart: unless-stopped
     ports:
