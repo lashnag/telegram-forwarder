@@ -25,8 +25,8 @@ services:
     depends_on:
       database:
         condition: service_healthy
-      logstash:
-        condition: service_healthy
+#      logstash:
+#        condition: service_healthy
       lemmatizer:
         condition: service_healthy
       ocr:
@@ -39,126 +39,126 @@ services:
       timeout: 10s
       retries: 5
   sender:
-    image: lashnag/sender_api:2.0.2
+    image: lashnag/sender_api:2.1.0
     container_name: sender_api
     restart: unless-stopped
     env_file:
       - .env
-    depends_on:
-      logstash:
-        condition: service_healthy
+#    depends_on:
+#      logstash:
+#        condition: service_healthy
     volumes:
       - ./mounted/sender_api:/sender_api/mounted
   lemmatizer:
-    image: lashnag/lemmatizer:1.1.2
+    image: lashnag/lemmatizer:1.2.0
     container_name: lemmatizer
     restart: unless-stopped
     env_file:
       - .env
-    depends_on:
-      logstash:
-        condition: service_healthy
+#    depends_on:
+#      logstash:
+#        condition: service_healthy
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:4355/healthcheck"]
       interval: 30s
       timeout: 10s
       retries: 5
   ocr:
-    image: lashnag/ocr:1.1.1
+    image: lashnag/ocr:1.2.0
     container_name: ocr
     restart: unless-stopped
     env_file:
       - .env
-    depends_on:
-      logstash:
-        condition: service_healthy
+#    depends_on:
+#      logstash:
+#        condition: service_healthy
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:4366/healthcheck" ]
       interval: 30s
       timeout: 10s
       retries: 5
   entities-extractor:
-    image: lashnag/entities-extractor:2.0.0
+    image: lashnag/entities-extractor:2.1.0
     container_name: entities-extractor
     restart: unless-stopped
     env_file:
       - .env
-    depends_on:
-      logstash:
-        condition: service_healthy
+#    depends_on:
+#      logstash:
+#        condition: service_healthy
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:4319/healthcheck" ]
       interval: 30s
       timeout: 10s
       retries: 5
-  elasticsearch:
-    image: elasticsearch:7.17.0
-    container_name: elasticsearch
-    restart: unless-stopped
-    environment:
-      - discovery.type=single-node
-      - ES_JAVA_OPTS=-Xms512m -Xmx512m
-      - xpack.security.enabled=true
-      - ELASTIC_USERNAME=${ELASTIC_USERNAME}
-      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
-    volumes:
-      - elastic_search_data:/usr/share/elasticsearch/data
-    env_file:
-      - .env
-    healthcheck:
-      test: [ "CMD", "curl", "-u", "${ELASTIC_USERNAME}:${ELASTIC_PASSWORD}", "http://localhost:9200/_cluster/health?wait_for_status=yellow&timeout=50s" ]
-      interval: 5s
-      timeout: 10s
-      retries: 15
-  logstash:
-    image: logstash:7.17.0
-    container_name: logstash
-    restart: unless-stopped
-    environment:
-      - XPACK_SECURITY_ENABLED=false
-      - XPACK_MONITORING_ENABLED=false
-    depends_on:
-      elasticsearch:
-        condition: service_healthy
-    volumes:
-      - ./mounted/logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
-    env_file:
-      - .env
-    healthcheck:
-      test: [ "CMD", "curl", "--silent", "--fail", "http://localhost:9600/_node/stats" ]
-      interval: 5s
-      timeout: 10s
-      retries: 15
-  kibana:
-    image: kibana:7.17.0
-    container_name: kibana
-    restart: unless-stopped
-    ports:
-      - "${KIBANA_PORT}:5601"
-    depends_on:
-      elasticsearch:
-        condition: service_healthy
-    environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-      - ELASTICSEARCH_USERNAME=${ELASTIC_USERNAME}
-      - ELASTICSEARCH_PASSWORD=${ELASTIC_PASSWORD}
-    env_file:
-      - .env
-  grafana:
-    image: grafana/grafana:11.5.1
-    container_name: grafana
-    restart: unless-stopped
-    ports:
-      - "${GRAFANA_PORT}:3000"
-    depends_on:
-      - elasticsearch
-    environment:
-      - GF_SECURITY_ADMIN_USER=${GRAFANA_USERNAME}
-      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
-      - GF_SERVER_ROOT_URL=${DOMAIN}:${GRAFANA_PORT}
-    volumes:
-      - grafana:/var/lib/grafana
+#  elasticsearch:
+#    image: elasticsearch:7.17.0
+#    container_name: elasticsearch
+#    restart: unless-stopped
+#    environment:
+#      - discovery.type=single-node
+#      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+#      - xpack.security.enabled=true
+#      - ELASTIC_USERNAME=${ELASTIC_USERNAME}
+#      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+#    volumes:
+#      - elastic_search_data:/usr/share/elasticsearch/data
+#    env_file:
+#      - .env
+#    healthcheck:
+#      test: [ "CMD", "curl", "-u", "${ELASTIC_USERNAME}:${ELASTIC_PASSWORD}", "http://localhost:9200/_cluster/health?wait_for_status=yellow&timeout=50s" ]
+#      interval: 5s
+#      timeout: 10s
+#      retries: 15
+#  logstash:
+#    image: logstash:7.17.0
+#    container_name: logstash
+#    restart: unless-stopped
+#    environment:
+#      - XPACK_SECURITY_ENABLED=false
+#      - XPACK_MONITORING_ENABLED=false
+#    depends_on:
+#      elasticsearch:
+#        condition: service_healthy
+#    volumes:
+#      - ./mounted/logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+#    env_file:
+#      - .env
+#    healthcheck:
+#      test: [ "CMD", "curl", "--silent", "--fail", "http://localhost:9600/_node/stats" ]
+#      interval: 5s
+#      timeout: 10s
+#      retries: 15
+#  kibana:
+#    image: kibana:7.17.0
+#    container_name: kibana
+#    restart: unless-stopped
+#    ports:
+#      - "${KIBANA_PORT}:5601"
+#    depends_on:
+#      elasticsearch:
+#        condition: service_healthy
+#    environment:
+#      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+#      - ELASTICSEARCH_USERNAME=${ELASTIC_USERNAME}
+#      - ELASTICSEARCH_PASSWORD=${ELASTIC_PASSWORD}
+#    env_file:
+#      - .env
+#  grafana:
+#    image: grafana/grafana:11.5.1
+#    container_name: grafana
+#    restart: unless-stopped
+#    ports:
+#      - "${GRAFANA_PORT}:3000"
+#    depends_on:
+#      - elasticsearch
+#    environment:
+#      - GF_SECURITY_ADMIN_USER=${GRAFANA_USERNAME}
+#      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+#      - GF_SERVER_ROOT_URL=${DOMAIN}:${GRAFANA_PORT}
+#    volumes:
+#      - grafana:/var/lib/grafana
 volumes:
   postgres_data:
-  elastic_search_data:
-  grafana:
+#  elastic_search_data:
+#  grafana:
