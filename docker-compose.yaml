@@ -15,7 +15,7 @@ services:
       timeout: 10s
       retries: 5
   backend:
-    image: lashnag/forwarder_backend_application:2.0.7
+    image: lashnag/forwarder_backend_application:2.0.8
     container_name: forwarder_backend_application
     restart: unless-stopped
     ports:
@@ -50,7 +50,7 @@ services:
     volumes:
       - ./mounted/sender_api:/sender_api/mounted
   lemmatizer:
-    image: lashnag/lemmatizer:1.2.0
+    image: lashnag/lemmatizer:1.2.1
     container_name: lemmatizer
     restart: unless-stopped
     env_file:
@@ -64,7 +64,7 @@ services:
       timeout: 10s
       retries: 5
   ocr:
-    image: lashnag/ocr:1.2.0
+    image: lashnag/ocr:1.2.1
     container_name: ocr
     restart: unless-stopped
     env_file:
@@ -78,7 +78,7 @@ services:
       timeout: 10s
       retries: 5
   entities-extractor:
-    image: lashnag/entities-extractor:2.1.0
+    image: lashnag/entities-extractor:2.1.1
     container_name: entities-extractor
     restart: unless-stopped
     env_file:
