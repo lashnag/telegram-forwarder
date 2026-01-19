@@ -39,7 +39,7 @@ services:
       timeout: 10s
       retries: 5
   sender:
-    image: lashnag/sender_api:2.1.0
+    image: lashnag/sender_api:2.1.1
     container_name: sender_api
     restart: unless-stopped
     env_file:
@@ -78,7 +78,7 @@ services:
       timeout: 10s
       retries: 5
   entities-extractor:
-    image: lashnag/entities-extractor:2.1.1
+    image: lashnag/entities-extractor:2.1.2
     container_name: entities-extractor
     restart: unless-stopped
     env_file:
