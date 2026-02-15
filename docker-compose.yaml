@@ -78,7 +78,7 @@ services:
       timeout: 10s
       retries: 5
   entities-extractor:
-    image: lashnag/entities-extractor:2.1.3
+    image: lashnag/entities-extractor:2.1.4
     container_name: entities-extractor
     restart: unless-stopped
     env_file:
