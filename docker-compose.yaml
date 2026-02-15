@@ -64,7 +64,7 @@ services:
       timeout: 10s
       retries: 5
   ocr:
-    image: lashnag/ocr:1.2.4
+    image: lashnag/ocr:1.2.5
     container_name: ocr
     restart: unless-stopped
     env_file:
