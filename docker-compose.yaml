@@ -25,21 +25,23 @@ services:
     depends_on:
       database:
         condition: service_healthy
-#      logstash:
-#        condition: service_healthy
+      sender:
+        condition: service_healthy
       lemmatizer:
         condition: service_healthy
       ocr:
         condition: service_healthy
       entities-extractor:
         condition: service_healthy
+#      logstash:
+#        condition: service_healthy
     healthcheck:
       test: ["CMD", "curl", "-f", "-u", "${BACKEND_BASIC_AUTH_USER}:${BACKEND_BASIC_AUTH_PASSWORD}", "http://localhost:8080/actuator/health"]
       interval: 30s
       timeout: 10s
       retries: 5
   sender:
-    image: lashnag/sender_api:2.1.4
+    image: lashnag/sender_api:2.1.5
     container_name: sender_api
     restart: unless-stopped
     env_file:
@@ -47,6 +49,11 @@ services:
 #    depends_on:
 #      logstash:
 #        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:4322/healthcheck" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
     volumes:
       - ./mounted/sender_api:/sender_api/mounted
   lemmatizer:
