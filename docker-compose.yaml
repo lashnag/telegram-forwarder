@@ -15,11 +15,11 @@ services:
       timeout: 10s
       retries: 5
   backend:
-    image: lashnag/forwarder_backend_application:2.0.21
+    image: lashnag/forwarder_backend_application:2.0.22
     container_name: forwarder_backend_application
     restart: unless-stopped
     ports:
-      - "8080:8080"
+      - "4040:8080"
     env_file:
       - .env
     depends_on:
@@ -42,7 +42,7 @@ services:
       retries: 5
   sender:
     image: lashnag/sender_api:2.1.6
-    container_name: sender_api
+    container_name: message_fetcher_for_forwarder
     restart: unless-stopped
     env_file:
       - .env
