@@ -41,7 +41,7 @@ services:
       timeout: 10s
       retries: 5
   sender:
-    image: lashnag/sender_api:2.1.5
+    image: lashnag/sender_api:2.1.6
     container_name: sender_api
     restart: unless-stopped
     env_file:
@@ -57,7 +57,7 @@ services:
     volumes:
       - ./mounted/sender_api:/sender_api/mounted
   lemmatizer:
-    image: lashnag/lemmatizer:1.2.4
+    image: lashnag/lemmatizer:1.2.5
     container_name: lemmatizer
     restart: unless-stopped
     env_file:
@@ -71,7 +71,7 @@ services:
       timeout: 10s
       retries: 5
   ocr:
-    image: lashnag/ocr:1.2.5
+    image: lashnag/ocr:1.2.6
     container_name: ocr
     restart: unless-stopped
     env_file:
@@ -85,7 +85,7 @@ services:
       timeout: 10s
       retries: 5
   entities-extractor:
-    image: lashnag/entities-extractor:2.1.7
+    image: lashnag/entities-extractor:2.1.8
     container_name: entities-extractor
     restart: unless-stopped
     env_file:
