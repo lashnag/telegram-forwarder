@@ -41,7 +41,7 @@ services:
       timeout: 10s
       retries: 5
   sender:
-    image: lashnag/sender_api:2.1.6
+    image: lashnag/sender_api:2.1.7
     container_name: message_fetcher_for_forwarder
     restart: unless-stopped
     env_file:
